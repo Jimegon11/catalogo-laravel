@@ -1,0 +1,168 @@
+{
+    "info": {
+        "_postman_id": "catalogo-productos-collection",
+        "name": "Catálogo de Productos — ShopCraft",
+        "description": "Colección para probar el catálogo de productos de ShopCraft. Incluye la ruta web de la home y un endpoint JSON de ejemplo para listar productos.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://catalogo-productos.test",
+            "type": "string",
+            "description": "URL base del proyecto (Laravel Herd). Ajusta si usas otro dominio o puerto."
+        }
+    ],
+    "item": [
+        {
+            "name": "🏠 Home — Catálogo de productos",
+            "item": [
+                {
+                    "name": "GET / — Página de inicio (HTML)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "text/html",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/",
+                            "host": ["{{base_url}}"],
+                            "path": [""]
+                        },
+                        "description": "Devuelve la página principal con el catálogo de productos renderizado con Blade. Espera una respuesta HTTP 200 con el listado en HTML."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('Status 200 OK', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "pm.test('Response is HTML', function () {",
+                                    "    pm.expect(pm.response.headers.get('Content-Type')).to.include('text/html');",
+                                    "});",
+                                    "",
+                                    "pm.test('Page contains ShopCraft brand', function () {",
+                                    "    pm.expect(pm.response.text()).to.include('ShopCraft');",
+                                    "});",
+                                    "",
+                                    "pm.test('Page contains product grid', function () {",
+                                    "    pm.expect(pm.response.text()).to.include('product-grid');",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "📦 Products — API (Opcionales)",
+            "item": [
+                {
+                    "name": "GET /api/products — Listar productos (JSON)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "products"]
+                        },
+                        "description": "⚠️ Esta ruta no está implementada aún. Es un placeholder para cuando se añada una API REST. Actualmente devolverá 404."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "// Esta ruta es un placeholder.",
+                                    "// Cuando se implemente, descomentar los tests:",
+                                    "",
+                                    "// pm.test('Status 200', () => pm.response.to.have.status(200));",
+                                    "// pm.test('Returns JSON array', () => {",
+                                    "//     const json = pm.response.json();",
+                                    "//     pm.expect(json).to.be.an('array');",
+                                    "//     pm.expect(json.length).to.be.at.least(12);",
+                                    "// });",
+                                    "",
+                                    "pm.test('Placeholder — route not yet implemented', function () {",
+                                    "    pm.expect([404, 200]).to.include(pm.response.code);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "response": []
+                },
+                {
+                    "name": "GET /api/products/:id — Ver producto (JSON)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Accept",
+                                "value": "application/json",
+                                "type": "text"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/api/products/1",
+                            "host": ["{{base_url}}"],
+                            "path": ["api", "products", "1"]
+                        },
+                        "description": "⚠️ Esta ruta no está implementada aún. Placeholder para ver un producto por ID."
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "🔍 Debug / Utilidades",
+            "item": [
+                {
+                    "name": "GET /up — Health check de Laravel",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/up",
+                            "host": ["{{base_url}}"],
+                            "path": ["up"]
+                        },
+                        "description": "Endpoint de salud de Laravel. Devuelve 200 si la aplicación está corriendo correctamente."
+                    },
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test('App is up — Status 200', function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "response": []
+                }
+            ]
+        }
+    ]
+}
